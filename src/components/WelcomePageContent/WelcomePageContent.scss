@@ -1,0 +1,25 @@
+.content {
+    height: 12rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    &__title {
+        font-size:5rem;
+        text-transform:uppercase;
+        letter-spacing: 3rem;
+        padding-left: 3rem;
+    }
+
+    &__body {
+        width: 100%;
+        display:flex;
+        justify-content: center;
+    }
+
+    &__description {
+        width: 35%;
+    }
+}
