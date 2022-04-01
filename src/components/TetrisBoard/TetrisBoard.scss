@@ -1,0 +1,42 @@
+.cell {
+    width: 35px;
+    height: 35px;
+    background-color: black;
+    border-top: 3px solid rgba(255, 255, 255, 0.1);
+    border-left: 3px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 3px solid rgba(0, 0, 0, 0.1);
+    border-right: 3px solid rgba(0, 0, 0, 0.1);
+    
+    &__t {
+        background-color: rgb(206, 220, 0);
+    }
+    
+    &__o {
+        background-color: rgb(63, 22, 187);
+    }
+    
+    &__l {
+        background-color: rgb(50, 186, 50);
+    }
+    
+    &__j {
+        background-color: rgb(251, 112, 112);
+    }
+    
+    &__s {
+        background-color: rgb(0, 216, 162);
+    }
+    
+    &__z {
+        background-color: rgb(216, 13, 81);
+    }
+
+    &__i {
+        background-color: rgb(212, 0, 255);
+    }
+}
+
+.row {
+    display: flex;
+    width: fit-content;
+}

@@ -1,11 +1,11 @@
 import React from 'react';
 import Tetris from '../../components/Tetris/Tetris';
+import './GamePage.scss';
 
 export default function GamePage(props) {
     return (
         <>
-            <div>
-                <h1>{props.username}</h1>
+            <div className="game-page">
                 <Tetris />
                 {/* <GameStats />
                 <Previews />
