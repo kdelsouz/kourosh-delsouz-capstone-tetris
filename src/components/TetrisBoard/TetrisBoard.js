@@ -2,17 +2,10 @@ import React from 'react';
 import './TetrisBoard.scss';
 import createTetrominoes from '../Tetrominoes/Tetrominos';
 
-const dropInterval = 1000;
-
-
-// block droping every second - 1000
-// check if next cell is empty and move down - if not stop and reset to next block
-// if block reaches max board.length, stop and reset to next block
-
-
 export default class TetrisBoard extends React.Component {
     state = {
         board: Array(20).fill(0).map(row => new Array(10).fill(0)),
+        count: 0,
     }
 
     randomTetromino = () => {
@@ -28,9 +21,9 @@ export default class TetrisBoard extends React.Component {
         return(tetrominos[Math.floor(Math.random() * tetrominos.length)]);
     }
 
-    componentDidMount = () => {
+    newBoard = () => {
         const newBoard = this.state.board;
-        const newTetromino = createTetrominoes(this.randomTetromino())
+        let newTetromino = createTetrominoes(this.randomTetromino())
 
         for(let y = 0; y < newTetromino.length; y++) {
             for(let x = 0; x < newTetromino[y].length; x++) {
@@ -39,11 +32,44 @@ export default class TetrisBoard extends React.Component {
                 }
             }
         }
-        this.setState({board: newBoard});
+        if(this.state.count > 17 ) {
+            this.setState({board: newBoard, count: 0});
+        } else {
+            this.setState({board: newBoard});
+        }
     }
 
-    componentWillUpdate = () => {
-        
+    moveBoard = () => {
+        const newBoard = Array(20).fill(0).map(row => new Array(10).fill(0));
+        // const newTetromino = createTetrominoes(this.randomTetromino())
+
+        for(let y = 0; y < newBoard.length; y++) {
+            for(let x = 0; x < newBoard[y].length; x++) {
+                if (this.state.board[y][x] && y < newBoard.length - 1) {
+                    newBoard[y+1][x] = this.state.board[y][x];
+                }
+            }
+        }
+        if(this.state.count > 17 ) {
+            this.newBoard();
+        } else {
+            this.setState({board: newBoard, count: this.state.count+ 1});
+        }
+    }
+
+
+    componentDidMount = () => {
+        this.newBoard();
+        setInterval(()=> {
+            this.moveBoard();
+        },500)
+    }
+
+    componentDidUpdate = () => {
+        // this.newBoard(this.state.count);
+        // setTimeout(() => {
+        //     this.moveBoard();
+        // }, 1000)
     }
 
     render = () => {
