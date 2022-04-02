@@ -1,0 +1,34 @@
+.game-score {
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 7rem;
+    width: 10rem;
+    background-color: white;
+    border-radius: 1rem;
+    border: 3px solid black;
+
+    &__header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50%;
+        border-bottom: 2px solid black;
+    }
+
+    &__text {
+        color: black;
+    }
+
+    &__container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50%;
+    }
+
+    &__score {
+        color: black;
+    }
+}
