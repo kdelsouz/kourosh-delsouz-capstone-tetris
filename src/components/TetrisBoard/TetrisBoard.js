@@ -8,6 +8,7 @@ export default class TetrisBoard extends React.Component {
         isGameOver: false,
         fallingTetromino: null,
         tetrominoPosition: [0, 4],
+        dropTimer: null,
     }
 
     createRandomTetromino = () => {
@@ -73,14 +74,14 @@ export default class TetrisBoard extends React.Component {
     tetrominoRotate = (board, tetromino, boardY, boardX) => {
         const tetrominoGrid = tetromino.grid;
         const tetrominoGridCopy = tetrominoGrid.map((arr) => { return arr.slice(); });
-        
+
         for (let y = 0; y < tetrominoGrid.length; y++) {
             for (let x = 0; x < tetrominoGrid[y].length; x++) {
                 tetrominoGridCopy[y][x] = tetrominoGrid[x][y]
             }
             tetrominoGridCopy[y].reverse();
         }
-        const rotatedTetromino = {grid: tetrominoGridCopy, type: tetromino.type}
+        const rotatedTetromino = { grid: tetrominoGridCopy, type: tetromino.type }
         const isColliding = this.checkCollision(board, rotatedTetromino, boardY, boardX)
 
         if (isColliding) {
@@ -89,12 +90,29 @@ export default class TetrisBoard extends React.Component {
         this.setState({ fallingTetromino: rotatedTetromino })
     }
 
-    tetrominoDropOne = () => {
+    tetrominoDropOne = (board, tetromino, boardY, boardX) => {
+        const isColliding = this.checkCollision(board, tetromino, boardY + 1, boardX);
 
+        if (!isColliding) {
+            let newTetrominoPos = this.state.tetrominoPosition;
+            newTetrominoPos[0] = newTetrominoPos[0] + 1;
+            clearInterval(this.state.dropTimer);
+            console.log(this.state.dropTimer)
+            this.setState({ tetrominoPosition: newTetrominoPos, dropTimer: setInterval(this.dropTetrominoInterval, 1000) });
+        }
     }
 
-    tetrominoDropMax = () => {
+    tetrominoDropMax = (board, tetromino, boardY, boardX) => {
+        let newBoardY = boardY + 1;
+        let isColliding = this.checkCollision(board, tetromino, newBoardY, boardX);
 
+        while (!isColliding) {
+            newBoardY++
+            isColliding = this.checkCollision(board, tetromino, newBoardY, boardX)
+        }
+        newBoardY--
+
+        this.mergeThenResetTetromino(tetromino, newBoardY, boardX);
     }
 
     mergeTetromino = (board, tetromino, boardY, boardX) => {
@@ -120,46 +138,43 @@ export default class TetrisBoard extends React.Component {
         return blockPositions;
     }
 
+    mergeThenResetTetromino = (tetromino, boardY, boardX) => {
+        const newBoard = this.state.board.map((arr) => { return arr.slice(); });
+        this.mergeTetromino(newBoard, tetromino, boardY, boardX);
+        const newTetromino = this.createRandomTetromino();
+
+        this.setState({
+            board: newBoard,
+            fallingTetromino: newTetromino,
+            tetrominoPosition: [0, 4]
+        })
+    }
+
     moveTetromino = (board, tetromino, boardY, boardX) => {
         const isColliding = this.checkCollision(board, tetromino, boardY + 1, boardX);
 
         if (isColliding) {
-            const newBoard = this.state.board.map((arr) => { return arr.slice(); });
-            this.mergeTetromino(newBoard, tetromino, boardY, boardX);
-            const newTetromino = this.createRandomTetromino();
-
-            this.setState({
-                board: newBoard,
-                fallingTetromino: newTetromino,
-                tetrominoPosition: [0, 4]
-            })
+            this.mergeThenResetTetromino(tetromino, boardY, boardX);
             return;
         }
 
         this.setState({ tetrominoPosition: [boardY + 1, boardX] })
-        // console.log({ tetrominoPosition: [boardY + 1, boardX] })
-        // this.tetrominoShiftRight(board, tetromino, boardY, boardX);
     }
 
+    dropTetrominoInterval = () => {
+        // this.tetrominoDropOne(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1])
+        this.tetrominoDropMax(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1]);
+        this.moveTetromino(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1]);
+    }
 
     componentDidMount = () => {
         const newTetromino = this.createRandomTetromino()
         const newBoard = this.state.board.map((arr) => { return arr.slice(); });
 
-        // this.mergeTetromino(newBoard, newTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1])
-        this.setState({ fallingTetromino: newTetromino, board: newBoard })
-        setInterval(() => {
-            this.tetrominoRotate(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1])
+        this.setState({
+            fallingTetromino: newTetromino, board: newBoard, dropTimer: setInterval(this.dropTetrominoInterval, 1000)
+        })
 
-            this.moveTetromino(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1]);
-        }, 1000)
-    }
-
-    componentDidUpdate = () => {
-        // this.newBoard(this.state.count);
-        // setTimeout(() => {
-        //     this.moveBoard();
-        // }, 1000)
     }
 
     render = () => {
