@@ -49,8 +49,6 @@ export default class TetrisBoard extends React.Component {
         return false;
     }
 
-
-
     tetrominoShiftLeft = (board, tetromino, boardY, boardX) => {
         const isColliding = this.checkCollision(board, tetromino, boardY, boardX - 1);
 
@@ -150,7 +148,7 @@ export default class TetrisBoard extends React.Component {
         })
     }
 
-    moveTetromino = (board, tetromino, boardY, boardX) => {
+    autoTetrominoDrop = (board, tetromino, boardY, boardX) => {
         const isColliding = this.checkCollision(board, tetromino, boardY + 1, boardX);
 
         if (isColliding) {
@@ -162,14 +160,31 @@ export default class TetrisBoard extends React.Component {
     }
 
     dropTetrominoInterval = () => {
-        // this.tetrominoDropOne(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1])
-        this.tetrominoDropMax(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1]);
-        this.moveTetromino(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1]);
+        this.autoTetrominoDrop(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1]);
     }
 
     componentDidMount = () => {
         const newTetromino = this.createRandomTetromino()
         const newBoard = this.state.board.map((arr) => { return arr.slice(); });
+
+        document.addEventListener('keydown', event => {
+            event.preventDefault();
+            if (event.key === "ArrowLeft") {
+                this.tetrominoShiftLeft(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1]);
+            }
+            else if (event.key === "ArrowRight") {
+                this.tetrominoShiftRight(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1]);
+            }
+            else if (event.key === "ArrowDown") {
+                this.tetrominoDropOne(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1]);
+            }
+            else if (event.key === "ArrowUp") {
+                this.tetrominoRotate(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1]);
+            }
+            else if (event.code === "Space") {
+                this.tetrominoDropMax(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1])
+            }
+        });
 
         this.setState({
             fallingTetromino: newTetromino, board: newBoard, dropTimer: setInterval(this.dropTetrominoInterval, 1000)
