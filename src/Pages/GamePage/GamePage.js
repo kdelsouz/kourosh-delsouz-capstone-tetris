@@ -2,16 +2,18 @@ import React from 'react';
 import './GamePage.scss';
 import Tetris from '../../components/Tetris/Tetris';
 import GameScore from '../../components/GameScore/GameScore';
-import GameMenuModal from '../../components/GameMenuModal/GameMenuModal';
+import PauseMenuModal from '../../components/PauseMenuModal/PauseMenuModal';
 
 export default function GamePage(props) {
+    console.log(props)
+
     return (
         <>
             <div className="game-page">
                 <GameScore />
                 <Tetris />
                 {/* <Previews /> */}
-                <GameMenuModal />
+                <PauseMenuModal />
             </div>
         </>
     )
