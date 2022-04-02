@@ -48,6 +48,40 @@ export default class TetrisBoard extends React.Component {
         return false;
     }
 
+
+
+    tetrominoShiftLeft = (board, tetromino, boardY, boardX) => {
+        const isColliding = this.checkCollision(board, tetromino, boardY, boardX - 1);
+        
+        if (!isColliding) {
+            let newTetrominoPos = this.state.tetrominoPosition
+            newTetrominoPos[1] = newTetrominoPos[1] - 1
+            this.setState({ tetrominoPosition: newTetrominoPos })
+        }
+    }
+
+    tetrominoShiftRight = (board, tetromino, boardY, boardX) => {
+        const isColliding = this.checkCollision(board, tetromino, boardY, boardX + 1);
+        
+        if (!isColliding) {
+            let newTetrominoPos = this.state.tetrominoPosition
+            newTetrominoPos[1] = newTetrominoPos[1] + 1
+            this.setState({ tetrominoPosition: newTetrominoPos })
+        }
+    }
+
+    tetrominoRotate = () => {
+
+    }
+
+    tetrominoDropOne = () => {
+
+    }
+
+    tetrominoDropMax = () => {
+
+    }
+
     mergeTetromino = (board, tetromino, boardY, boardX) => {
         const blockPositions = this.getBlockPositions(tetromino.grid, boardY, boardX);
 
@@ -56,11 +90,6 @@ export default class TetrisBoard extends React.Component {
 
             board[currentPosition[0]][currentPosition[1]] = tetromino.type
         }
-    }
-
-    dropNewTetromino = () => {
-
-
     }
 
     getBlockPositions = (tetrominoGrid, boardY, boardX) => {
@@ -84,7 +113,7 @@ export default class TetrisBoard extends React.Component {
             this.mergeTetromino(newBoard, tetromino, boardY, boardX);
             const newTetromino = this.createRandomTetromino();
 
-            this.setState({ 
+            this.setState({
                 board: newBoard,
                 fallingTetromino: newTetromino,
                 tetrominoPosition: [0, 4]
@@ -93,8 +122,8 @@ export default class TetrisBoard extends React.Component {
         }
 
         this.setState({ tetrominoPosition: [boardY + 1, boardX] })
-
-        console.log({ tetrominoPosition: [boardY + 1, boardX] })
+        // console.log({ tetrominoPosition: [boardY + 1, boardX] })
+        // this.tetrominoShiftRight(board, tetromino, boardY, boardX);
     }
 
 
