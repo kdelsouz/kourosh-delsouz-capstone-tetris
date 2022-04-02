@@ -52,7 +52,7 @@ export default class TetrisBoard extends React.Component {
 
     tetrominoShiftLeft = (board, tetromino, boardY, boardX) => {
         const isColliding = this.checkCollision(board, tetromino, boardY, boardX - 1);
-        
+
         if (!isColliding) {
             let newTetrominoPos = this.state.tetrominoPosition
             newTetrominoPos[1] = newTetrominoPos[1] - 1
@@ -62,7 +62,7 @@ export default class TetrisBoard extends React.Component {
 
     tetrominoShiftRight = (board, tetromino, boardY, boardX) => {
         const isColliding = this.checkCollision(board, tetromino, boardY, boardX + 1);
-        
+
         if (!isColliding) {
             let newTetrominoPos = this.state.tetrominoPosition
             newTetrominoPos[1] = newTetrominoPos[1] + 1
@@ -70,8 +70,23 @@ export default class TetrisBoard extends React.Component {
         }
     }
 
-    tetrominoRotate = () => {
+    tetrominoRotate = (board, tetromino, boardY, boardX) => {
+        const tetrominoGrid = tetromino.grid;
+        const tetrominoGridCopy = tetrominoGrid.map((arr) => { return arr.slice(); });
+        
+        for (let y = 0; y < tetrominoGrid.length; y++) {
+            for (let x = 0; x < tetrominoGrid[y].length; x++) {
+                tetrominoGridCopy[y][x] = tetrominoGrid[x][y]
+            }
+            tetrominoGridCopy[y].reverse();
+        }
+        const rotatedTetromino = {grid: tetrominoGridCopy, type: tetromino.type}
+        const isColliding = this.checkCollision(board, rotatedTetromino, boardY, boardX)
 
+        if (isColliding) {
+            return;
+        }
+        this.setState({ fallingTetromino: rotatedTetromino })
     }
 
     tetrominoDropOne = () => {
@@ -134,6 +149,8 @@ export default class TetrisBoard extends React.Component {
         // this.mergeTetromino(newBoard, newTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1])
         this.setState({ fallingTetromino: newTetromino, board: newBoard })
         setInterval(() => {
+            this.tetrominoRotate(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1])
+
             this.moveTetromino(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1]);
         }, 1000)
     }
