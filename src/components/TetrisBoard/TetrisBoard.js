@@ -58,6 +58,11 @@ export default class TetrisBoard extends React.Component {
         }
     }
 
+    dropNewTetromino = () => {
+
+
+    }
+
     getBlockPositions = (tetrominoGrid, boardY, boardX) => {
         const blockPositions = [];
 
@@ -76,8 +81,14 @@ export default class TetrisBoard extends React.Component {
 
         if (isColliding) {
             const newBoard = this.state.board.map((arr) => { return arr.slice(); });
-            this.mergeTetromino(newBoard, tetromino, boardY + 1, boardX);
-            this.setState({ board: newBoard, tetrominoPosition: [boardY + 1, boardX] })
+            this.mergeTetromino(newBoard, tetromino, boardY, boardX);
+            const newTetromino = this.createRandomTetromino();
+
+            this.setState({ 
+                board: newBoard,
+                fallingTetromino: newTetromino,
+                tetrominoPosition: [0, 4]
+            })
             return;
         }
 
@@ -107,9 +118,9 @@ export default class TetrisBoard extends React.Component {
 
     render = () => {
         const boardWithTetromino = this.state.board.map((arr) => { return arr.slice(); });
-        if (this.state.fallingTetromino){
+        if (this.state.fallingTetromino) {
             this.mergeTetromino(boardWithTetromino, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1]);
-        } 
+        }
 
         return (
             <>
