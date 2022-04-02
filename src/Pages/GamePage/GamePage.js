@@ -3,6 +3,7 @@ import './GamePage.scss';
 import Tetris from '../../components/Tetris/Tetris';
 import GameScore from '../../components/GameScore/GameScore';
 import PauseMenuModal from '../../components/PauseMenuModal/PauseMenuModal';
+import GameOverModal from '../../components/GameOverModal/GameOverModal';
 
 export default function GamePage(props) {
     console.log(props)
@@ -13,8 +14,9 @@ export default function GamePage(props) {
                 <GameScore />
                 <Tetris />
                 {/* <Previews /> */}
-                <PauseMenuModal />
             </div>
+                {/* <PauseMenuModal /> */}
+                {/* <GameOverModal /> */}
         </>
     )
 }
