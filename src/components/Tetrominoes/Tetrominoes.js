@@ -103,8 +103,8 @@ function createTetromino(type) {
             ],
             previewGrid: [
                 [0, 0, 0, 0],
-                [0, 'j', 'j', 0],
-                ['j', 'j', 0, 0],
+                [0, 's', 's', 0],
+                ['s', 's', 0, 0],
                 [0, 0, 0, 0]
             ],
             type: type

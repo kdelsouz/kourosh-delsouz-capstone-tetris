@@ -2,16 +2,15 @@ import React from 'react';
 import './GamePage.scss';
 import TetrisBoard from '../../components/TetrisBoard/TetrisBoard';
 import GameScore from '../../components/GameScore/GameScore';
-import PauseMenuModal from '../../components/PauseMenuModal/PauseMenuModal';
-import GameOverModal from '../../components/GameOverModal/GameOverModal';
 import PreviewTetrominoes from '../../components/PreviewTetrominoes/PreviewTetrominoes';
 import { createRandomTetromino } from '../../components/Tetrominoes/Tetrominoes';
+import Leaderboard from '../../components/Leaderboard/Leaderboard';
 
 export default class GamePage extends React.Component {
 
     state = {
         isGameOver: false,
-        isGamePaused: false,
+        showPausedModal: false,
         gameScore: 0,
         nextTetrominoesPreview: [
             createRandomTetromino(),
@@ -20,8 +19,8 @@ export default class GamePage extends React.Component {
         ],
     }
 
-    toggleGamePause = () => {
-        this.setState({ isGamePaused: true })
+    toggleShowGamePausedModal = () => {
+        this.setState({ showPausedModal: !this.state.showPausedModal })
     }
 
     addPointsToScore = () => {
@@ -45,16 +44,13 @@ export default class GamePage extends React.Component {
         return (
             <>
                 <div className="game-page">
-                    <GameScore gameScore={this.state.gameScore} />
-                    <TetrisBoard grabNextTetromino={this.grabNextTetromino} addPoints={this.addPointsToScore} isGameOver={this.state.isGameOver} createRandomTetromino={this.createRandomTetromino} setGameOver={this.setGameOver} isGamePaused={this.state.isGamePaused}  tetrominoesPreview={this.state.tetrominoesPreview} />
-                    <PreviewTetrominoes nextTetrominoesPreview={this.state.nextTetrominoesPreview} createRandomTetromino={this.createRandomTetromino} tetrominoesPreview={this.state.nextTetrominoesPreview} toggleGamePause={this.toggleGamePause} />
+                    <div>
+                        <GameScore gameScore={this.state.gameScore} />
+                        <Leaderboard />
+                    </div>
+                    <TetrisBoard toggleShowGamePausedModal={this.toggleShowGamePausedModal} grabNextTetromino={this.grabNextTetromino} addPoints={this.addPointsToScore} isGameOver={this.state.isGameOver} createRandomTetromino={this.createRandomTetromino} setGameOver={this.setGameOver} showPausedModal={this.state.showPausedModal}  tetrominoesPreview={this.state.tetrominoesPreview} />
+                    <PreviewTetrominoes nextTetrominoesPreview={this.state.nextTetrominoesPreview} createRandomTetromino={this.createRandomTetromino} tetrominoesPreview={this.state.nextTetrominoesPreview} toggleShowGamePausedModal={this.toggleShowGamePausedModal} />
                 </div>
-                {this.state.isGamePaused && 
-                    <PauseMenuModal toggleGamePause={this.toggleGamePause}/>
-                }
-                {this.state.isGameOver &&
-                    <GameOverModal toggleGamePause={this.toggleGamePause} username={this.props.username} gameScore={this.state.gameScore} />
-                }
             </>
         )
     }

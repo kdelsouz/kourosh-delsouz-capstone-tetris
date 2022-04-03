@@ -1,5 +1,7 @@
 import React from 'react';
 import './TetrisBoard.scss';
+import GameOverModal from '../GameOverModal/GameOverModal';
+import PauseMenuModal from '../PauseMenuModal/PauseMenuModal';
 
 export default class TetrisBoard extends React.Component {
     state = {
@@ -18,6 +20,9 @@ export default class TetrisBoard extends React.Component {
 
         document.addEventListener('keydown', event => {
             event.preventDefault();
+            if (this.props.showPausedModal) {
+                return;
+            }
             if (event.key === "ArrowLeft") {
                 this.tetrominoShiftLeft(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1]);
             }
@@ -197,6 +202,17 @@ export default class TetrisBoard extends React.Component {
         })
     }
 
+    pauseTimeInterval = () => {
+        this.props.toggleShowGamePausedModal();
+        clearInterval(this.state.dropTimer);
+    }
+    
+    resumeTimeInterval = () => {
+        this.props.toggleShowGamePausedModal();
+        this.setState({ dropTimer: setInterval(this.dropTetrominoInterval, 1000) })
+        
+    }
+
     autoTetrominoDrop = (board, tetromino, boardY, boardX) => {
         const isColliding = this.checkCollision(board, tetromino, boardY + 1, boardX);
 
@@ -234,6 +250,17 @@ export default class TetrisBoard extends React.Component {
                         </div>
                     )
                 })}
+                <div className="preview__button">
+                    <button className="preview__pause" onClick={this.pauseTimeInterval} >
+                        Pause
+                    </button>
+                </div>
+                {this.props.showPausedModal && 
+                    <PauseMenuModal toggleGamePause={this.props.toggleGamePause} resumeTimeInterval={this.resumeTimeInterval}/>
+                }
+                {this.props.isGameOver &&
+                    <GameOverModal toggleGamePause={this.props.toggleGamePause} username={this.props.username} gameScore={this.state.gameScore} />
+                }
             </div>
         )
     }

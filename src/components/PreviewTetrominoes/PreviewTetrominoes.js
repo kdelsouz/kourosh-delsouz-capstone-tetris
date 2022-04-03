@@ -34,11 +34,6 @@ export default function PreviewTetrominoes(props) {
                     </li>
                 ))
                 }
-                <li className="preview__button">
-                    <button className="preview__pause" onClick={props.toggleGamePause}>
-                        Pause
-                    </button>
-                </li>
             </ul>
         </section>
     )
