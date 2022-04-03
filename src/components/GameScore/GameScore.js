@@ -1,7 +1,7 @@
 import React from "react";
 import './GameScore.scss';
 
-export default function GameScore() {
+export default function GameScore({ gameScore }) {
 
     return (
             <section className="game-score">
@@ -9,7 +9,7 @@ export default function GameScore() {
                     <h2 className="game-score__text">Score:</h2>
                 </div>
                 <div className="game-score__container">
-                    <h2 className="game-score__score">9999</h2>
+                    <h2 className="game-score__score">{gameScore}</h2>
                 </div>
             </section>
     )

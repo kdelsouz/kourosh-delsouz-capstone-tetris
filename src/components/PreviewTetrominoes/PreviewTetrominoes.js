@@ -3,8 +3,6 @@ import './PreviewTetrominoes.scss';
 
 export default function PreviewTetrominoes(props) {
 
-    console.log(props.nextTetrominoesPreview)
-
     return (
         <section className="preview">
             <div className="preview__header">
@@ -18,7 +16,7 @@ export default function PreviewTetrominoes(props) {
                     <li key={i}>
                         <div>
                             {/* mapping through rows */}
-                            {nextTetromino.grid.map((row, j) => {
+                            {nextTetromino.previewGrid.map((row, j) => {
                                 return (
                                     <div key={j} className="row">
                                         {/* mapping through cells */}
@@ -37,7 +35,7 @@ export default function PreviewTetrominoes(props) {
                 ))
                 }
                 <li className="preview__button">
-                    <button className="preview__pause">
+                    <button className="preview__pause" onClick={props.toggleGamePause}>
                         Pause
                     </button>
                 </li>

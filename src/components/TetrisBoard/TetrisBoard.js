@@ -84,7 +84,7 @@ export default class TetrisBoard extends React.Component {
             }
         }
         rowsToRemove.forEach((rowYValue) => {
-            //TO DO: add 100 points 
+            this.props.addPoints()
             board.splice(rowYValue, 1);
             board.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
         })

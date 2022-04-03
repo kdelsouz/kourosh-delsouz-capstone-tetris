@@ -20,6 +20,14 @@ export default class GamePage extends React.Component {
         ],
     }
 
+    toggleGamePause = () => {
+        this.setState({ isGamePaused: true })
+    }
+
+    addPointsToScore = () => {
+        this.setState({ gameScore: this.state.gameScore + 100 })
+    }
+
     grabNextTetromino = () => {
         let copiedTetrominoesPreview = JSON.parse(JSON.stringify(this.state.nextTetrominoesPreview))
         const nextTetromino = copiedTetrominoesPreview.shift();
@@ -38,13 +46,15 @@ export default class GamePage extends React.Component {
             <>
                 <div className="game-page">
                     <GameScore gameScore={this.state.gameScore} />
-                    <TetrisBoard grabNextTetromino={this.grabNextTetromino} isGameOver={this.state.isGameOver} createRandomTetromino={this.createRandomTetromino} setGameOver={this.setGameOver} isGamePaused={this.state.isGamePaused} gameScore={this.state.gameScore} tetrominoesPreview={this.state.tetrominoesPreview} />
-                    <PreviewTetrominoes nextTetrominoesPreview={this.state.nextTetrominoesPreview} createRandomTetromino={this.createRandomTetromino} tetrominoesPreview={this.state.nextTetrominoesPreview} />
+                    <TetrisBoard grabNextTetromino={this.grabNextTetromino} addPoints={this.addPointsToScore} isGameOver={this.state.isGameOver} createRandomTetromino={this.createRandomTetromino} setGameOver={this.setGameOver} isGamePaused={this.state.isGamePaused}  tetrominoesPreview={this.state.tetrominoesPreview} />
+                    <PreviewTetrominoes nextTetrominoesPreview={this.state.nextTetrominoesPreview} createRandomTetromino={this.createRandomTetromino} tetrominoesPreview={this.state.nextTetrominoesPreview} toggleGamePause={this.toggleGamePause} />
                 </div>
-                {/* <PauseMenuModal /> */}
-                {/* {this.state.isGameOver &&
-                    <GameOverModal username={this.props.username} />
-                } */}
+                {this.state.isGamePaused && 
+                    <PauseMenuModal toggleGamePause={this.toggleGamePause}/>
+                }
+                {this.state.isGameOver &&
+                    <GameOverModal toggleGamePause={this.toggleGamePause} username={this.props.username} gameScore={this.state.gameScore} />
+                }
             </>
         )
     }

@@ -20,6 +20,12 @@ function createTetromino(type) {
                 [0, 't', 0],
                 [0, 0, 0],
             ],
+            previewGrid: [
+                [0, 0, 0, 0],
+                ['t', 't', 't', 0],
+                [0, 't', 0, 0],
+                [0, 0, 0, 0]
+            ],
             type: type
         };
 
@@ -28,6 +34,12 @@ function createTetromino(type) {
             grid: [
                 ['o', 'o'],
                 ['o', 'o'],
+            ],
+            previewGrid: [
+                [0, 0, 0, 0],
+                [0, 'o', 'o', 0],
+                [0, 'o', 'o', 0],
+                [0, 0, 0, 0]
             ],
             type: type
         };
@@ -39,6 +51,12 @@ function createTetromino(type) {
                 [0, 'l', 0],
                 [0, 'l', 'l'],
             ],
+            previewGrid: [
+                [0, 'l', 0, 0],
+                [0, 'l', 0, 0],
+                [0, 'l', 'l', 0],
+                [0, 0, 0, 0]
+            ],
             type: type
         };
 
@@ -48,6 +66,12 @@ function createTetromino(type) {
                 [0, 'j', 0],
                 [0, 'j', 0],
                 ['j', 'j', 0],
+            ],
+            previewGrid: [
+                [0, 0, 'j', 0],
+                [0, 0, 'j', 0],
+                [0, 'j', 'j', 0],
+                [0, 0, 0, 0]
             ],
             type: type
         };
@@ -61,6 +85,12 @@ function createTetromino(type) {
                 [0, 'i', 0, 0],
                 [0, 'i', 0, 0],
             ],
+            previewGrid: [
+                [0, 'i', 0, 0],
+                [0, 'i', 0, 0],
+                [0, 'i', 0, 0],
+                [0, 'i', 0, 0]
+            ],
             type: type
         };
 
@@ -71,6 +101,12 @@ function createTetromino(type) {
                 ['s', 's', 0],
                 [0, 0, 0],
             ],
+            previewGrid: [
+                [0, 0, 0, 0],
+                [0, 'j', 'j', 0],
+                ['j', 'j', 0, 0],
+                [0, 0, 0, 0]
+            ],
             type: type
         };
 
@@ -80,6 +116,12 @@ function createTetromino(type) {
                 ['z', 'z', 0],
                 [0, 'z', 'z'],
                 [0, 0, 0],
+            ],
+            previewGrid: [
+                [0, 0, 0, 0],
+                [0, 'z', 'z', 0],
+                [0, 0, 'z', 'z'],
+                [0, 0, 0, 0]
             ],
             type: type
         };
