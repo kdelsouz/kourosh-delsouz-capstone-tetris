@@ -13,7 +13,7 @@ export default class TetrisBoard extends React.Component {
     // Making a copy of board in state and storing in a variable
     // Keydown event listeners for user input and their respective functions
     componentDidMount = () => {
-        const newTetromino = this.props.createRandomTetromino()
+        const newTetromino = this.props.grabNextTetromino()
         const newBoard = this.state.board.map((arr) => { return arr.slice(); });
 
         document.addEventListener('keydown', event => {
@@ -185,7 +185,7 @@ export default class TetrisBoard extends React.Component {
         const newBoard = this.state.board.map((arr) => { return arr.slice(); });
         this.mergeTetromino(newBoard, tetromino, boardY, boardX);
         this.clearAllFullLines(newBoard)
-        const newTetromino = this.props.createRandomTetromino();
+        const newTetromino = this.props.grabNextTetromino();
         if (this.checkCollision(newBoard, newTetromino, 0, 4)) {
             this.props.setGameOver()
         }

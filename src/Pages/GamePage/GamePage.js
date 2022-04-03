@@ -5,7 +5,7 @@ import GameScore from '../../components/GameScore/GameScore';
 import PauseMenuModal from '../../components/PauseMenuModal/PauseMenuModal';
 import GameOverModal from '../../components/GameOverModal/GameOverModal';
 import PreviewTetrominoes from '../../components/PreviewTetrominoes/PreviewTetrominoes';
-import createTetromino from '../../components/Tetrominoes/Tetrominos';
+import { createRandomTetromino } from '../../components/Tetrominoes/Tetrominoes';
 
 export default class GamePage extends React.Component {
 
@@ -14,48 +14,23 @@ export default class GamePage extends React.Component {
         isGamePaused: false,
         gameScore: 0,
         nextTetrominoesPreview: [
-            [[0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0]],
-
-            [[0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0]],
-
-            [[0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0],
-            [0,0,0,0]]
-            
+            createRandomTetromino(),
+            createRandomTetromino(),
+            createRandomTetromino()
         ],
     }
 
-    componentDidMount() {
-        this.setState({ nextTetrominoesPreview: [
-            this.createRandomTetromino().grid,
-            this.createRandomTetromino().grid,
-            this.createRandomTetromino().grid
-        ] })
+    grabNextTetromino = () => {
+        let copiedTetrominoesPreview = JSON.parse(JSON.stringify(this.state.nextTetrominoesPreview))
+        const nextTetromino = copiedTetrominoesPreview.shift();
+        
+        copiedTetrominoesPreview.push(createRandomTetromino());
+        this.setState({ nextTetrominoesPreview: copiedTetrominoesPreview })
+        return nextTetromino;
     }
 
     setGameOver = () => {
         this.setState({ isGameOver: true })
-    }
-    
-     //function to spit out a random string corresponding to their tetromino
-     createRandomTetromino = () => {
-        const tetrominos = [
-            't',
-            'o',
-            'l',
-            'j',
-            'i',
-            's',
-            'z',
-        ];
-        return createTetromino(tetrominos[Math.floor(Math.random() * tetrominos.length)]);
     }
 
     render() {
@@ -63,7 +38,7 @@ export default class GamePage extends React.Component {
             <>
                 <div className="game-page">
                     <GameScore gameScore={this.state.gameScore} />
-                    <TetrisBoard isGameOver={this.state.isGameOver} createRandomTetromino={this.createRandomTetromino} setGameOver={this.setGameOver} isGamePaused={this.state.isGamePaused} gameScore={this.state.gameScore} tetrominoesPreview={this.state.tetrominoesPreview} />
+                    <TetrisBoard grabNextTetromino={this.grabNextTetromino} isGameOver={this.state.isGameOver} createRandomTetromino={this.createRandomTetromino} setGameOver={this.setGameOver} isGamePaused={this.state.isGamePaused} gameScore={this.state.gameScore} tetrominoesPreview={this.state.tetrominoesPreview} />
                     <PreviewTetrominoes nextTetrominoesPreview={this.state.nextTetrominoesPreview} createRandomTetromino={this.createRandomTetromino} tetrominoesPreview={this.state.nextTetrominoesPreview} />
                 </div>
                 {/* <PauseMenuModal /> */}

@@ -3,6 +3,8 @@ import './PreviewTetrominoes.scss';
 
 export default function PreviewTetrominoes(props) {
 
+    console.log(props.nextTetrominoesPreview)
+
     return (
         <section className="preview">
             <div className="preview__header">
@@ -12,11 +14,11 @@ export default function PreviewTetrominoes(props) {
             </div>
             <ul className="preview__tetrominoes">
                 {/* map through each grid */}
-                {props.nextTetrominoesPreview.map((nextTetromino, i) => (
-                    <li>
+                {props.nextTetrominoesPreview.length > 0 && props.nextTetrominoesPreview.map((nextTetromino, i) => (
+                    <li key={i}>
                         <div>
                             {/* mapping through rows */}
-                            {nextTetromino.map((row, j) => {
+                            {nextTetromino.grid.map((row, j) => {
                                 return (
                                     <div key={j} className="row">
                                         {/* mapping through cells */}

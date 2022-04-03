@@ -1,4 +1,17 @@
-export default function createTetromino(type) {
+export function createRandomTetromino() {
+        const tetrominos = [
+            't',
+            'o',
+            'l',
+            'j',
+            'i',
+            's',
+            'z',
+        ];
+        return createTetromino(tetrominos[Math.floor(Math.random() * tetrominos.length)]);
+    }
+
+function createTetromino(type) {
 
     if (type === 't') {
         return {
