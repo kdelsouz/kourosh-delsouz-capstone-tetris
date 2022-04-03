@@ -21,7 +21,7 @@ export default class App extends Component {
                 ? 
                 <WelcomePage displayTetrisHandler={ this.displayTetrisHandler }/>
                 : 
-                <GamePage username={ this.state.username } pauseModal={ this.state.displayPauseModal }/>
+                <GamePage username={ this.state.username }/>
         )
     }
 }

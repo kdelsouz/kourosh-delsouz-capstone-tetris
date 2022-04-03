@@ -11,6 +11,9 @@ export default class TetrisBoard extends React.Component {
         dropTimer: null,
     }
 
+
+    // Making a copy of board in state and storing in a variable
+    // Keydown event listeners for user input and their respective functions
     componentDidMount = () => {
         const newTetromino = this.createRandomTetromino()
         const newBoard = this.state.board.map((arr) => { return arr.slice(); });
@@ -40,6 +43,7 @@ export default class TetrisBoard extends React.Component {
 
     }
 
+    //function to spit out a random string corresponding to their tetromino
     createRandomTetromino = () => {
         const tetrominos = [
             't',
@@ -53,6 +57,7 @@ export default class TetrisBoard extends React.Component {
         return createTetromino(tetrominos[Math.floor(Math.random() * tetrominos.length)]);
     }
 
+    //function to check for collision on all sides of the board and other merged tetrominos
     checkCollision = (board, tetromino, boardY, boardX) => {
         const blockPositions = this.getBlockPositions(tetromino.grid, boardY, boardX);
 
@@ -78,6 +83,29 @@ export default class TetrisBoard extends React.Component {
         return false;
     }
 
+    //function to clear completed lines
+    clearAllFullLines = (board) => {
+        const rowsToRemove = [];
+
+        for (let y = 0; y < board.length; y++) {
+            let countCellsFilled = 0;
+            for (let x = 0; x < board[y].length; x++) {
+                if (board[y][x] !== 0) {
+                    countCellsFilled++
+                }
+            }
+            if (countCellsFilled === 10) {
+                rowsToRemove.push(y)
+            }
+        }
+        rowsToRemove.forEach((rowYValue) => {
+            //TO DO: add 100 points 
+            board.splice(rowYValue, 1);
+            board.unshift([0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        })
+    }
+
+    //function to shift tetromino left on the x(column) axis, while also checking for collisions
     tetrominoShiftLeft = (board, tetromino, boardY, boardX) => {
         const isColliding = this.checkCollision(board, tetromino, boardY, boardX - 1);
 
@@ -88,6 +116,7 @@ export default class TetrisBoard extends React.Component {
         }
     }
 
+    //function to shift tetromino right on the x(column) axis, while also checking for collisions
     tetrominoShiftRight = (board, tetromino, boardY, boardX) => {
         const isColliding = this.checkCollision(board, tetromino, boardY, boardX + 1);
 
@@ -98,10 +127,12 @@ export default class TetrisBoard extends React.Component {
         }
     }
 
+    //function to rotate tetromino by transposing and reversing the values of the tetromino grid, while also checking for collisions
     tetrominoRotate = (board, tetromino, boardY, boardX) => {
         const tetrominoGrid = tetromino.grid;
         const tetrominoGridCopy = tetrominoGrid.map((arr) => { return arr.slice(); });
 
+        //function and algorithm to transpose and reverse values of the tetromino grid
         for (let y = 0; y < tetrominoGrid.length; y++) {
             for (let x = 0; x < tetrominoGrid[y].length; x++) {
                 tetrominoGridCopy[y][x] = tetrominoGrid[x][y]
@@ -117,6 +148,7 @@ export default class TetrisBoard extends React.Component {
         this.setState({ fallingTetromino: rotatedTetromino })
     }
 
+    //function to drop the falling tetromino by 1 on the y(row) axis, while checking for collision
     tetrominoDropOne = (board, tetromino, boardY, boardX) => {
         const isColliding = this.checkCollision(board, tetromino, boardY + 1, boardX);
 
@@ -124,7 +156,6 @@ export default class TetrisBoard extends React.Component {
             let newTetrominoPos = this.state.tetrominoPosition;
             newTetrominoPos[0] = newTetrominoPos[0] + 1;
             clearInterval(this.state.dropTimer);
-            console.log(this.state.dropTimer)
             this.setState({ tetrominoPosition: newTetrominoPos, dropTimer: setInterval(this.dropTetrominoInterval, 1000) });
         }
     }
@@ -168,12 +199,15 @@ export default class TetrisBoard extends React.Component {
     mergeThenResetTetromino = (tetromino, boardY, boardX) => {
         const newBoard = this.state.board.map((arr) => { return arr.slice(); });
         this.mergeTetromino(newBoard, tetromino, boardY, boardX);
+        this.clearAllFullLines(newBoard)
         const newTetromino = this.createRandomTetromino();
+        const isGameOver = this.checkCollision(newBoard, newTetromino, 0, 4);
 
         this.setState({
             board: newBoard,
             fallingTetromino: newTetromino,
-            tetrominoPosition: [0, 4]
+            tetrominoPosition: [0, 4],
+            isGameOver: isGameOver,
         })
     }
 
@@ -200,7 +234,7 @@ export default class TetrisBoard extends React.Component {
         }
 
         return (
-            <>
+            <div className="tetris-board">
                 {boardWithTetromino.map((row, i) => {
                     return (
                         <div key={i} className="row">
@@ -214,7 +248,7 @@ export default class TetrisBoard extends React.Component {
                         </div>
                     )
                 })}
-            </>
+            </div>
         )
     }
 }

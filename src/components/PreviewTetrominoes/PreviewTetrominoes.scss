@@ -1,0 +1,55 @@
+.preview {
+    margin-top: 5rem;
+    // margin-left: -5rem;
+    background-color: white;
+    height: 34rem;
+    width: 15rem;
+    border-radius: 20px;
+    border: 3px solid black;
+
+    &__text {
+        color: black;
+        margin: 1rem 0;
+    }
+    
+    &__tetrominoes {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        background-color:rgb(225, 225, 225);
+        height: 28rem;
+        width: 85%;
+        border: 1px solid black;
+        margin: 0 auto;
+        border-radius: 10px;
+    }
+
+    &__tetromino {
+        background-color: black;
+        height: 120px;
+        width: 120px;
+
+    }
+
+    &__button {
+        margin-top: 1rem;
+        width: 100%;
+        height: 3rem;
+    }
+    
+    &__pause {
+        height: 80%;
+        width: 80%;
+        font-size: 1.2rem;
+        background-color: white;
+        border: 2px solid black;
+        border-radius: 2rem;
+        transition: 0.2s;
+        &:hover {
+            background-color: rgb(255, 136, 0);
+            color: white;
+            cursor: pointer;
+        }
+    }
+}
