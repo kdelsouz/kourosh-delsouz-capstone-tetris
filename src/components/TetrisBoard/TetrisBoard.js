@@ -5,7 +5,6 @@ import createTetromino from '../Tetrominoes/Tetrominos';
 export default class TetrisBoard extends React.Component {
     state = {
         board: Array(20).fill(0).map(row => new Array(10).fill(0)),
-        isGameOver: false,
         fallingTetromino: null,
         tetrominoPosition: [0, 4],
         dropTimer: null,
@@ -201,13 +200,14 @@ export default class TetrisBoard extends React.Component {
         this.mergeTetromino(newBoard, tetromino, boardY, boardX);
         this.clearAllFullLines(newBoard)
         const newTetromino = this.createRandomTetromino();
-        const isGameOver = this.checkCollision(newBoard, newTetromino, 0, 4);
+        if (this.checkCollision(newBoard, newTetromino, 0, 4)) {
+            this.props.setGameOver()
+        }
 
         this.setState({
             board: newBoard,
             fallingTetromino: newTetromino,
             tetrominoPosition: [0, 4],
-            isGameOver: isGameOver,
         })
     }
 

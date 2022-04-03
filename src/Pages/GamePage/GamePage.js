@@ -15,18 +15,22 @@ export default class GamePage extends React.Component {
         nextTetrominoesPreview: [],
     }
 
-    
+    setGameOver = () => {
+        this.setState({ isGameOver: true })
+    }
 
     render() {
         return (
             <>
                 <div className="game-page">
                     <GameScore gameScore={this.state.gameScore} />
-                    <TetrisBoard isGameOver={this.state.isGameOver} isGamePaused={this.state.isGamePaused} gameScore={this.state.gameScore} tetrominoesPreview={this.state.tetrominoesPreview} />
+                    <TetrisBoard isGameOver={this.state.isGameOver} setGameOver={this.setGameOver} isGamePaused={this.state.isGamePaused} gameScore={this.state.gameScore} tetrominoesPreview={this.state.tetrominoesPreview} />
                     <PreviewTetrominoes tetrominoesPreview={this.state.nextTetrominoesPreview} />
                 </div>
-                    {/* <PauseMenuModal /> */}
-                    {/* <GameOverModal username={props.username} /> */}
+                {/* <PauseMenuModal /> */}
+                {this.state.isGameOver &&
+                    <GameOverModal username={this.props.username} />
+                }
             </>
         )
     }
