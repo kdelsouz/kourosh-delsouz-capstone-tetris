@@ -1,6 +1,5 @@
 import React from 'react';
 import './TetrisBoard.scss';
-import createTetromino from '../Tetrominoes/Tetrominos';
 
 export default class TetrisBoard extends React.Component {
     state = {
@@ -14,7 +13,7 @@ export default class TetrisBoard extends React.Component {
     // Making a copy of board in state and storing in a variable
     // Keydown event listeners for user input and their respective functions
     componentDidMount = () => {
-        const newTetromino = this.createRandomTetromino()
+        const newTetromino = this.props.createRandomTetromino()
         const newBoard = this.state.board.map((arr) => { return arr.slice(); });
 
         document.addEventListener('keydown', event => {
@@ -42,19 +41,6 @@ export default class TetrisBoard extends React.Component {
 
     }
 
-    //function to spit out a random string corresponding to their tetromino
-    createRandomTetromino = () => {
-        const tetrominos = [
-            't',
-            'o',
-            'l',
-            'j',
-            'i',
-            's',
-            'z',
-        ];
-        return createTetromino(tetrominos[Math.floor(Math.random() * tetrominos.length)]);
-    }
 
     //function to check for collision on all sides of the board and other merged tetrominos
     checkCollision = (board, tetromino, boardY, boardX) => {
@@ -199,7 +185,7 @@ export default class TetrisBoard extends React.Component {
         const newBoard = this.state.board.map((arr) => { return arr.slice(); });
         this.mergeTetromino(newBoard, tetromino, boardY, boardX);
         this.clearAllFullLines(newBoard)
-        const newTetromino = this.createRandomTetromino();
+        const newTetromino = this.props.createRandomTetromino();
         if (this.checkCollision(newBoard, newTetromino, 0, 4)) {
             this.props.setGameOver()
         }

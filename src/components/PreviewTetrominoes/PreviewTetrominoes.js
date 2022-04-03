@@ -1,7 +1,7 @@
 import React from 'react';
 import './PreviewTetrominoes.scss';
 
-export default function PreviewTetrominoes() {
+export default function PreviewTetrominoes(props) {
 
     return (
         <section className="preview">
@@ -11,15 +11,29 @@ export default function PreviewTetrominoes() {
                 </h2>
             </div>
             <ul className="preview__tetrominoes">
-                <li className="preview__tetromino">
-                    <div></div>
-                </li>
-                <li className="preview__tetromino">
-                    <div></div>
-                </li>
-                <li className="preview__tetromino">
-                    <div></div>
-                </li>
+                {/* map through each grid */}
+                {props.nextTetrominoesPreview.map((nextTetromino, i) => (
+                    <li>
+                        <div>
+                            {/* mapping through rows */}
+                            {nextTetromino.map((row, j) => {
+                                return (
+                                    <div key={j} className="row">
+                                        {/* mapping through cells */}
+                                        {row.map((cell, k) => {
+                                            return (
+                                                <div key={k} className={(cell === 0 ? 'cell' : `cell cell__${cell} `)}>
+                                                    <div className={(cell === 0 ? '' : 'cell__sparkle')}></div>
+                                                </div>
+                                            )
+                                        })}
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </li>
+                ))
+                }
                 <li className="preview__button">
                     <button className="preview__pause">
                         Pause
@@ -27,5 +41,5 @@ export default function PreviewTetrominoes() {
                 </li>
             </ul>
         </section>
-        )
+    )
 }
