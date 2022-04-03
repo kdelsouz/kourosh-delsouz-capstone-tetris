@@ -10,7 +10,7 @@ export default function PauseMenuModal(props) {
                     <VolumeSlider />
                 </div> */}
                 <div className="pause__button-container">
-                    <button className="pause__restart">
+                    <button className="pause__restart" onClick={() => {props.restartGame(props.toggleShowGamePausedModal)}}>
                         Restart
                     </button>
                 </div>

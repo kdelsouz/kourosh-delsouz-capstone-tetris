@@ -192,7 +192,8 @@ export default class TetrisBoard extends React.Component {
         this.clearAllFullLines(newBoard)
         const newTetromino = this.props.grabNextTetromino();
         if (this.checkCollision(newBoard, newTetromino, 0, 4)) {
-            this.props.setGameOver()
+            this.props.toggleShowGameOverModal();
+            clearInterval(this.state.dropTimer);
         }
 
         this.setState({
@@ -228,6 +229,15 @@ export default class TetrisBoard extends React.Component {
         this.autoTetrominoDrop(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1]);
     }
 
+    restartGame = (toggleModal) => {
+        toggleModal();
+        const resettedBoard = Array(20).fill(0).map(row => new Array(10).fill(0));
+        this.props.resetScore();
+        const droppingTetromino = this.props.createAndSetPreviewTetrominoes();
+        clearInterval(this.state.dropTimer);
+
+        this.setState({ board: resettedBoard, fallingTetromino: droppingTetromino, tetrominoPosition: [0, 4], dropTimer: setInterval(this.dropTetrominoInterval, 1000) })
+    }
 
     render = () => {
         const boardWithTetromino = this.state.board.map((arr) => { return arr.slice(); });
@@ -256,10 +266,10 @@ export default class TetrisBoard extends React.Component {
                     </button>
                 </div>
                 {this.props.showPausedModal && 
-                    <PauseMenuModal toggleGamePause={this.props.toggleGamePause} resumeTimeInterval={this.resumeTimeInterval}/>
+                    <PauseMenuModal restartGame={this.restartGame} toggleShowGamePausedModal={this.props.toggleShowGamePausedModal} resumeTimeInterval={this.resumeTimeInterval}/>
                 }
-                {this.props.isGameOver &&
-                    <GameOverModal toggleGamePause={this.props.toggleGamePause} username={this.props.username} gameScore={this.state.gameScore} />
+                {this.props.showGameOverModal &&
+                    <GameOverModal restartGame={this.restartGame} toggleShowGameOverModal={this.props.toggleShowGameOverModal} username={this.props.username} gameScore={this.state.gameScore} />
                 }
             </div>
         )
