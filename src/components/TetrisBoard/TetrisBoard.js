@@ -20,7 +20,7 @@ export default class TetrisBoard extends React.Component {
 
         document.addEventListener('keydown', event => {
             event.preventDefault();
-            if (this.props.showPausedModal) {
+            if (this.props.showPausedModal || this.props.showGameOverModal) {
                 return;
             }
             if (event.key === "ArrowLeft") {
@@ -45,7 +45,7 @@ export default class TetrisBoard extends React.Component {
         })
 
     }
-
+    
 
     //function to check for collision on all sides of the board and other merged tetrominos
     checkCollision = (board, tetromino, boardY, boardX) => {
@@ -194,6 +194,7 @@ export default class TetrisBoard extends React.Component {
         if (this.checkCollision(newBoard, newTetromino, 0, 4)) {
             this.props.toggleShowGameOverModal();
             clearInterval(this.state.dropTimer);
+            this.props.postNameAndScore();
         }
 
         this.setState({
@@ -269,7 +270,7 @@ export default class TetrisBoard extends React.Component {
                     <PauseMenuModal restartGame={this.restartGame} toggleShowGamePausedModal={this.props.toggleShowGamePausedModal} resumeTimeInterval={this.resumeTimeInterval}/>
                 }
                 {this.props.showGameOverModal &&
-                    <GameOverModal restartGame={this.restartGame} toggleShowGameOverModal={this.props.toggleShowGameOverModal} username={this.props.username} gameScore={this.state.gameScore} />
+                    <GameOverModal gameScore={this.props.gameScore}  restartGame={this.restartGame} toggleShowGameOverModal={this.props.toggleShowGameOverModal} username={this.props.username} />
                 }
             </div>
         )
