@@ -45,7 +45,7 @@ export default class TetrisBoard extends React.Component {
         })
 
     }
-    
+
 
     //function to check for collision on all sides of the board and other merged tetrominos
     checkCollision = (board, tetromino, boardY, boardX) => {
@@ -73,7 +73,7 @@ export default class TetrisBoard extends React.Component {
         return false;
     }
 
-    //function to clear completed lines
+    //function to clear completed lines and add a new cleared line for each deleted line at the top of the board
     clearAllFullLines = (board) => {
         const rowsToRemove = [];
 
@@ -150,6 +150,7 @@ export default class TetrisBoard extends React.Component {
         }
     }
 
+    //function to drop the falling tetromino to its final possible position
     tetrominoDropMax = (board, tetromino, boardY, boardX) => {
         let newBoardY = boardY + 1;
         let isColliding = this.checkCollision(board, tetromino, newBoardY, boardX);
@@ -163,6 +164,7 @@ export default class TetrisBoard extends React.Component {
         this.mergeThenResetTetromino(tetromino, newBoardY, boardX);
     }
 
+    //function to merge tetromino to the board based on the tetrominos current position
     mergeTetromino = (board, tetromino, boardY, boardX) => {
         const blockPositions = this.getBlockPositions(tetromino.grid, boardY, boardX);
 
@@ -173,6 +175,7 @@ export default class TetrisBoard extends React.Component {
         }
     }
 
+    //function to return the falling tetrominos current position on the boards y and x axis
     getBlockPositions = (tetrominoGrid, boardY, boardX) => {
         const blockPositions = [];
 
@@ -186,6 +189,7 @@ export default class TetrisBoard extends React.Component {
         return blockPositions;
     }
 
+    //function to merge the falling tetromino when it has collided and putting a new falling tetromino at the top of the board
     mergeThenResetTetromino = (tetromino, boardY, boardX) => {
         const newBoard = this.state.board.map((arr) => { return arr.slice(); });
         this.mergeTetromino(newBoard, tetromino, boardY, boardX);
@@ -197,6 +201,7 @@ export default class TetrisBoard extends React.Component {
             this.props.postNameAndScore();
         }
 
+        //setting state to include merged fallen tetromino and new falling tetromino
         this.setState({
             board: newBoard,
             fallingTetromino: newTetromino,
@@ -204,17 +209,20 @@ export default class TetrisBoard extends React.Component {
         })
     }
 
+    //function to pause time interval and show pause modal
     pauseTimeInterval = () => {
         this.props.toggleShowGamePausedModal();
         clearInterval(this.state.dropTimer);
     }
-    
+
+    //function to resume time interval after it has been paused
     resumeTimeInterval = () => {
         this.props.toggleShowGamePausedModal();
         this.setState({ dropTimer: setInterval(this.dropTetrominoInterval, 1000) })
-        
+
     }
 
+    //function to automatically drop tetromino on the board by +1 on the y(row) axis and stopping once collision condition is met
     autoTetrominoDrop = (board, tetromino, boardY, boardX) => {
         const isColliding = this.checkCollision(board, tetromino, boardY + 1, boardX);
 
@@ -230,6 +238,7 @@ export default class TetrisBoard extends React.Component {
         this.autoTetrominoDrop(this.state.board, this.state.fallingTetromino, this.state.tetrominoPosition[0], this.state.tetrominoPosition[1]);
     }
 
+    //function to restart game to its initial default state
     restartGame = (toggleModal) => {
         toggleModal();
         const resettedBoard = Array(20).fill(0).map(row => new Array(10).fill(0));
@@ -266,11 +275,20 @@ export default class TetrisBoard extends React.Component {
                         Pause
                     </button>
                 </div>
-                {this.props.showPausedModal && 
-                    <PauseMenuModal restartGame={this.restartGame} toggleShowGamePausedModal={this.props.toggleShowGamePausedModal} resumeTimeInterval={this.resumeTimeInterval}/>
+                {this.props.showPausedModal &&
+                    <PauseMenuModal
+                        restartGame={this.restartGame}
+                        toggleShowGamePausedModal={this.props.toggleShowGamePausedModal}
+                        resumeTimeInterval={this.resumeTimeInterval}
+                    />
                 }
                 {this.props.showGameOverModal &&
-                    <GameOverModal gameScore={this.props.gameScore}  restartGame={this.restartGame} toggleShowGameOverModal={this.props.toggleShowGameOverModal} username={this.props.username} />
+                    <GameOverModal
+                        gameScore={this.props.gameScore}
+                        restartGame={this.restartGame}
+                        toggleShowGameOverModal={this.props.toggleShowGameOverModal}
+                        username={this.props.username}
+                    />
                 }
             </div>
         )

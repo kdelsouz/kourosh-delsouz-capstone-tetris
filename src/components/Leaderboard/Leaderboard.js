@@ -12,9 +12,9 @@ export default function Leaderboard(props) {
                 {props.leaderboard.map((obj, i) => {
                     return (
                         <li key={i} className="leaderboard__list-item">
-                            <h3>{i + 1}</h3>
-                            <h3>{obj.name}</h3>
-                            <h3>{obj.score}</h3>
+                            <h3 className="leaderboard__list-id">{i + 1}.</h3>
+                            <h3 className="leaderboard__list-name">{obj.name}</h3>
+                            <h3 className="leaderboard__list-score">{obj.score}</h3>
                         </li>
                     )
                 })}

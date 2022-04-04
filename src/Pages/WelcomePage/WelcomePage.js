@@ -10,7 +10,7 @@ export default function WelcomePage(props) {
                     <WelcomePageContent />
                 </li>
                 <li>
-                    <InputName displayTetrisHandler={ props.displayTetrisHandler } />
+                    <InputName displayTetrisHandler={ props.displayTetrisHandler } inputError={ props.inputError } />
                 </li>
             </ul>
         </>
