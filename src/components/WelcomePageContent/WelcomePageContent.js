@@ -1,13 +1,12 @@
 import React from 'react';
 import './WelcomePageContent.scss';
+import tetrisHero from '../../assets/images/tetris-hero.png';
 
 export default function WelcomePageContent() {
     return (
         <section className="content">
             <div className="content__header">
-                <h1 className="content__title">
-                    tetris
-                </h1>
+                <img className="content__hero-img" src={tetrisHero} /> 
             </div>
             <div className="content__body">
                 <p className="content__description">

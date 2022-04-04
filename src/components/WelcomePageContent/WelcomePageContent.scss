@@ -1,10 +1,16 @@
 .content {
-    height: 12rem;
+    height: 14rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    margin-top: 15rem;
     margin-bottom: 2rem;
+
+    &__hero-img {
+        width:40rem;
+        height: 11rem;
+    }
 
     &__title {
         font-size:5rem;
@@ -20,6 +26,7 @@
     }
 
     &__description {
-        width: 35%;
+        width: 45%;
+        font-size: 20px;
     }
 }
