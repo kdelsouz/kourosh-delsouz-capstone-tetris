@@ -6,6 +6,7 @@ import GameScore from '../../components/GameScore/GameScore';
 import PreviewTetrominoes from '../../components/PreviewTetrominoes/PreviewTetrominoes';
 import { createRandomTetromino } from '../../components/Tetrominoes/Tetrominoes';
 import Leaderboard from '../../components/Leaderboard/Leaderboard';
+import { API_URL } from '../../config';
 
 export default class GamePage extends React.Component {
 
@@ -26,7 +27,7 @@ export default class GamePage extends React.Component {
     }
 
     updateLeaderboard = () => {
-        axios.get('http://localhost:5050/scores')
+        axios.get(`${API_URL}/scores`)
         .then((res) => {
             let top10Scores = res.data.sort((scoreObj1, scoreObj2) => {
                 return scoreObj2.score - scoreObj1.score;
@@ -42,7 +43,7 @@ export default class GamePage extends React.Component {
     }
 
     postNameAndScore = () => {
-        axios.post(`http://localhost:5050/scores?name=${this.props.username}&score=${this.state.gameScore}`)
+        axios.post(`${API_URL}/scores?name=${this.props.username}&score=${this.state.gameScore}`)
             .then((res) => {
                 this.updateLeaderboard();
             })
