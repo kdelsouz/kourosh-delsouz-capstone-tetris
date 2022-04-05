@@ -1,6 +1,8 @@
 import React from 'react';
+import './WelcomePage.scss';
 import WelcomePageContent from '../../components/WelcomePageContent/WelcomePageContent';
 import InputName from '../../components/InputName/InputName';
+import controlsImg from '../../assets/images/controls-img.png';
 
 export default function WelcomePage(props) {
     return (
@@ -12,12 +14,9 @@ export default function WelcomePage(props) {
                 <li>
                     <InputName displayTetrisHandler={ props.displayTetrisHandler } inputError={ props.inputError } />
                 </li>
-<<<<<<< Updated upstream
-=======
                 <li>
                     <img className='controls-img' src={controlsImg} alt='display for keybinds and controls'/>
                 </li>
->>>>>>> Stashed changes
             </ul>
         </>
     )

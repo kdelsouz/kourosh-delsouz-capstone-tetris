@@ -1,24 +1,18 @@
 .content {
-<<<<<<< Updated upstream
-    height: 12rem;
-=======
     height: 18rem;
->>>>>>> Stashed changes
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 2rem;
+    margin-top: 20rem;
 
-<<<<<<< Updated upstream
-=======
     &__hero-img {
         width:40rem;
         height: 11rem;
         margin-left: 2.8rem;
     }
 
->>>>>>> Stashed changes
     &__title {
         font-size:5rem;
         text-transform:uppercase;
@@ -33,12 +27,8 @@
     }
 
     &__description {
-<<<<<<< Updated upstream
-        width: 35%;
-=======
         width: 60%;
         min-width: 29rem;
         font-size: 24px;
->>>>>>> Stashed changes
     }
 }
