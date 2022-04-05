@@ -4,6 +4,7 @@
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    margin-top: 15rem;
     margin-bottom: 2rem;
     margin-top: 20rem;
 
@@ -11,6 +12,11 @@
         width:40rem;
         height: 11rem;
         margin-left: 2.8rem;
+    }
+
+    &__hero-img {
+        width:40rem;
+        height: 11rem;
     }
 
     &__title {

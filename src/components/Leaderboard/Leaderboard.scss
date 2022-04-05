@@ -20,7 +20,7 @@
 
         &-item {
             display: flex;
-            justify-content: space-evenly;
+            justify-content: flex-start;
             flex-direction: row;
             flex-wrap: nowrap;
             padding-top: 7px;
@@ -37,7 +37,16 @@
         }
 
         &-id {
-            width: 5px;
+            width: 32px;
+        }
+
+        &-name {
+            display: flex;
+            width: 100px;
+        }
+
+        &-score {
+            width: 75px;
         }
     }
 }
