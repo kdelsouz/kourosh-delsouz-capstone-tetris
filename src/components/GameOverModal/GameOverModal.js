@@ -7,7 +7,7 @@ export default function GameOverModal(props) {
         <div className="modal-background">
             <section className="game-over">
                 <div className="game-over__text">
-                    <h2 className="game-over__name">Way to go {props.username}!</h2>
+                    <h2 className="game-over__name">Alright {props.username}, lets see how you did.</h2>
                     <p className="game-over__points">
                         You scored {props.gameScore} points, do you want to play again?
                     </p>
