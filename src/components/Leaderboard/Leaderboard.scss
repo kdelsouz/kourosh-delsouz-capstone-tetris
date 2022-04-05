@@ -43,6 +43,7 @@
         &-name {
             display: flex;
             width: 100px;
+            overflow: hidden;
         }
 
         &-score {
